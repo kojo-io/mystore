@@ -1,0 +1,7 @@
+<div class="w-full">
+  <h1 class="text-2xl">Hot Sale</h1>
+  <cx-product-list-item
+    *ngIf="hotProduct$ | async as product"
+    [product]="product"
+  ></cx-product-list-item>
+</div>

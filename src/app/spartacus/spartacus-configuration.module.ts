@@ -1,16 +1,28 @@
-import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from "@spartacus/assets";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
+import {NgModule} from '@angular/core';
+import {translationChunksConfig, translations} from "@spartacus/assets";
+import {FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig} from "@spartacus/core";
+import {
+  defaultCmsContentProviders,
+  layoutConfig,
+  mediaConfig,
+  OutletPosition, ProductListModule,
+  provideOutlet
+} from "@spartacus/storefront";
 import {CheckoutConfigurationModule} from "./checkout-configuration/checkout-configuration.module";
-import {GERMAN_TRANSLATIONS} from "./translations/i18n";
-import {LayoutConfigurationModule} from "./layout-configuration/layout-configuration.module";
+import {MyComponentsModule} from "../my-components/my-components.module";
+import {WishlistModule} from "../my-components/wishlist/wishlist.module";
+import {MyHomeModule} from "../my-components/my-home/my-home.module";
+import {HomeOutletComponent} from "../my-components/home-outlet/home-outlet.component";
+import {SmartEditConfig} from "@spartacus/smartedit/root";
 
 @NgModule({
   declarations: [],
   imports: [
     CheckoutConfigurationModule,
-    LayoutConfigurationModule
+    ProductListModule,
+    MyComponentsModule,
+    WishlistModule,
+    MyHomeModule
   ],
   providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
     backend: {
@@ -37,6 +49,17 @@ import {LayoutConfigurationModule} from "./layout-configuration/layout-configura
   }), provideConfig(<FeaturesConfig>{
     features: {
       level: '4.3'
+    }
+  }),
+  provideOutlet({
+    id: 'Section1',
+    position: OutletPosition.BEFORE,
+    component: HomeOutletComponent
+  }),
+  provideConfig(<SmartEditConfig>{
+    smartEdit: {
+      storefrontPreviewRoute: 'cx-preview',
+      allowOrigin: 'localhost:9002'
     }
   })]
 })

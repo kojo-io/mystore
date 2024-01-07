@@ -1,0 +1,68 @@
+<ng-container *ngIf="cart$ | async as cart">
+  <ng-container *ngIf="entries$ | async as entries">
+    <div *ngIf="cart.totalItems || 0 > 0 " class="w-full border flex flex-col relative">
+      <div *ngIf="!(cartLoaded$ | async)" class="absolute inset-0 backdrop-blur-sm backdrop-filter z-10 flex items-center justify-center">
+        <cx-spinner ></cx-spinner>
+      </div>
+      <table class="border-collapse border border-slate-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3">
+            #
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Image
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Code
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Name
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Manufacturer
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Price
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Quantity
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Total
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let entry of entries; index as i" class="bg-white border-b">
+          <td class="px-2 py-2">
+            {{i+1}}
+          </td>
+          <td class="px-2 py-2">
+            <cx-media [container]="entry.product?.images?.PRIMARY"></cx-media>
+          </td>
+          <td class="px-2 py-2">
+            {{entry.product?.code}}
+          </td>
+          <td class="px-2 py-2">
+            {{entry.product?.name}}
+          </td>
+          <td class="px-2 py-2">
+            {{entry.product?.manufacturer}}
+          </td>
+          <td class="px-2 py-2">
+            {{entry.basePrice?.formattedValue}}
+          </td>
+          <td class="px-2 py-2">
+            <input class="w-28 border rounded p-1.5" type="number" [value]="entry.quantity" (change)="onChange(entry.entryNumber, $event)">
+          </td>
+          <td class="px-2 py-2">
+            {{entry.totalPrice?.formattedValue}}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </ng-container>
+</ng-container>
